@@ -6,8 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     public float horizontalInput;
     public float speed = 10;
+    public float gravityModifier = 5;
     public float jumpForce = 50;
-    public float gravityModifier = 10;
+
+    public int jumpCount = 0;
     
     private Rigidbody playerRb;
     
@@ -22,13 +24,25 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        MovePlayer();
+    }
+    void MovePlayer()
+    {
         horizontalInput = Input.GetAxis("Horizontal");
 
         transform.Translate(Vector3.right * horizontalInput * Time.deltaTime * speed);
-        if(Input.GetKeyDown(KeyCode.Space))
+
+        if(Input.GetKeyDown(KeyCode.Space) && jumpCount < 2)
         {
-            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            Debug.Log("Juump");
+            playerRb.AddForce(Vector3.up * jumpForce);
+            jumpCount++;
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Ground"))
+        {
+            jumpCount = 0;
         }
     }
 }
