@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public int jumpCount = 0;
     
     private Rigidbody playerRb;
+    private Animator playerAnim;
     
 
     // Start is called before the first frame update
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody>();
         Physics.gravity *= gravityModifier;
+        playerAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -29,8 +31,16 @@ public class PlayerController : MonoBehaviour
     void MovePlayer()
     {
         horizontalInput = Input.GetAxis("Horizontal");
-
-        transform.Translate(Vector3.right * horizontalInput * Time.deltaTime * speed);
+        if(Input.GetAxis("Horizontal") != 0 )
+        {
+            
+            transform.Translate(Vector3.forward * horizontalInput * Time.deltaTime * speed);
+            playerAnim.SetFloat("Speed_f", .6f);
+        }
+        else
+        {
+            playerAnim.SetFloat("Speed_f", 0);
+        }
 
         if(Input.GetKeyDown(KeyCode.Space) && jumpCount < 2)
         {
