@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space) && jumpCount < 2)
         {
+            playerAnim.SetTrigger("Jump_trig");
             playerRb.AddForce(Vector3.up * jumpForce);
             jumpCount++;
         }
