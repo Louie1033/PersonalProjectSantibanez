@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     void MovePlayer()
     {
         horizontalInput = Input.GetAxis("Horizontal");
+
         if(Input.GetAxis("Horizontal") != 0 )
         {
             
